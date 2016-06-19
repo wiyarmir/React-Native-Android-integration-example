@@ -1,0 +1,23 @@
+{
+  "name": "reactsample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "start": "node node_modules/react-native/local-cli/cli.js start" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wiyarmir/React-Native-Android-integration-example.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wiyarmir/React-Native-Android-integration-example/issues"
+  },
+  "homepage": "https://github.com/wiyarmir/React-Native-Android-integration-example#readme",
+  "dependencies": {
+    "react-native": "^0.27.2"
+  }
+}
