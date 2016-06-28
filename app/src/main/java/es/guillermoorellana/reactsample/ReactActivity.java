@@ -17,6 +17,7 @@ public class ReactActivity extends AppCompatActivity implements DefaultHardwareB
 
     private ReactRootView mReactRootView;
     private ReactInstanceManager mReactInstanceManager;
+    private LifecycleState mLifecycleState = LifecycleState.BEFORE_RESUME;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class ReactActivity extends AppCompatActivity implements DefaultHardwareB
             .setJSMainModuleName("index.android")
             .addPackage(new MainReactPackage())
             .setUseDeveloperSupport(BuildConfig.DEBUG)
-            .setInitialLifecycleState(LifecycleState.RESUMED)
+            .setInitialLifecycleState(mLifecycleState)
             .build();
         mReactRootView.startReactApplication(mReactInstanceManager, "ReactSample", null);
 
@@ -48,8 +49,10 @@ public class ReactActivity extends AppCompatActivity implements DefaultHardwareB
     protected void onPause() {
         super.onPause();
 
+        mLifecycleState = LifecycleState.BEFORE_RESUME;
+
         if (mReactInstanceManager != null) {
-            mReactInstanceManager.onPause();
+            mReactInstanceManager.onHostPause();
         }
     }
 
@@ -57,8 +60,29 @@ public class ReactActivity extends AppCompatActivity implements DefaultHardwareB
     protected void onResume() {
         super.onResume();
 
+        mLifecycleState = LifecycleState.RESUMED;
+
         if (mReactInstanceManager != null) {
-            mReactInstanceManager.onResume(this, this);
+            mReactInstanceManager.onHostResume(this, this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        mReactRootView.unmountReactApplication();
+        mReactRootView = null;
+
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.destroy();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
