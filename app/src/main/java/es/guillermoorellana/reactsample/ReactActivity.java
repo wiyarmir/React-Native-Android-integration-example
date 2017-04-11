@@ -7,9 +7,9 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
+import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -82,7 +82,7 @@ public class ReactActivity extends AppCompatActivity implements DefaultHardwareB
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (mReactInstanceManager != null) {
-            mReactInstanceManager.onActivityResult(requestCode, resultCode, data);
+            mReactInstanceManager.onActivityResult(this, requestCode, resultCode, data);
         }
     }
 
